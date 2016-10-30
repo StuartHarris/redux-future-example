@@ -12,7 +12,10 @@ export const getSchedule = createAction(GET_SCHEDULE, async uri => {
 export default handleActions({
   [GET_SCHEDULE]: (state, action) => {
     let broadcasts = [];
-    if (!action.error) {
+    let error = null;
+    if (action.error) {
+      error = action.payload;
+    } else {
       broadcasts = map(b => ({
         id: b.pid,
         title: b.programme.display_titles.title,
@@ -22,9 +25,11 @@ export default handleActions({
     return {
       ...state,
       broadcasts,
+      error,
     };
   },
-}, { broadcasts: [] });
+}, { broadcasts: [], error: null });
 
 const broadcasts = prop('broadcasts');
-export const selector = createStructuredSelector({ broadcasts });
+const error = prop('error');
+export const selector = createStructuredSelector({ broadcasts, error });

@@ -13,10 +13,11 @@ import './App.css';
 
 type Props = {
   getSchedule: () => Object,
-  broadcasts: []
+  broadcasts: [],
+  error: Object
 }
 
-const App = ({ getSchedule, broadcasts }: Props) => (
+const App = ({ getSchedule, broadcasts, error }: Props) => (
   <div className="App">
     <div className="App-header">
       <img src={logo} className="App-logo" alt="logo" />
@@ -24,10 +25,11 @@ const App = ({ getSchedule, broadcasts }: Props) => (
     </div>
     <button
       className="App-intro"
-      onClick={() => getSchedule('http://www.bbc.co.uk/radio4/programmes/schedules/fm/today.json')}
+      onClick={() => getSchedule('http://www.bbc.co.uk/radio4/programmes/schedules/fm/today.j2son')}
     >
       Radio 4
     </button>
+    {error && <div>{error.message}</div>}
     <table>
       <thead><tr><th>Start</th><th>Title</th></tr></thead>
       <tbody>
