@@ -4,11 +4,11 @@ import { map, prop, compose } from 'ramda';
 import { Future } from 'ramda-fantasy';
 import { tagged } from 'daggy';
 
+import { getJson } from './side-effects';
+
 export const GET_SCHEDULE = 'GET_SCHEDULE';
 
-const httpGet = url => Future((reject, resolve) =>
-  fetch(url).then(res => res.json()).then(resolve).catch(reject)
-);
+const httpGet = url => Future((reject, resolve) => getJson(url).then(resolve, reject));
 
 const makeUrl = day => `http://www.bbc.co.uk/radio4/programmes/schedules/fm/${day}.json`;
 

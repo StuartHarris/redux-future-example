@@ -16,7 +16,8 @@ module.exports = {
   "globals": {
     "expect": true,
     "Generator": true,
-    "spy": true
+    "spy": true,
+    "jest": true
   },
   "plugins": [
     "babel",

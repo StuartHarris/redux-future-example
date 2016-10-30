@@ -8,7 +8,10 @@ const mockStore = configureStore(middlewares);
 
 it('renders without crashing', () => {
   const div = document.createElement('div');
-  const initialState = {};
+  const initialState = { app: {
+    error: null,
+    broadcasts: [],
+  } };
   const store = mockStore(initialState);
   ReactDOM.render((
     <App store={store} />

@@ -13,8 +13,8 @@
     "eslint-plugin-react": "^6.4.1",
     "identity-obj-proxy": "^3.0.0",
     "react-addons-test-utils": "^15.3.2",
-    "redux-mock-store": "^1.2.1",
-    "react-scripts": "0.7.0"
+    "react-scripts": "0.7.0",
+    "redux-mock-store": "^1.2.1"
   },
   "dependencies": {
     "babel-jest": "^16.0.0",
@@ -25,6 +25,7 @@
     "daggy": "^0.0.1",
     "data.task": "^3.1.1",
     "date-fns": "^1.9.0",
+    "flux-standard-action": "^1.0.0",
     "ramda": "^0.22.1",
     "ramda-fantasy": "^0.7.0",
     "react": "^15.3.2",
