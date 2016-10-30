@@ -8,6 +8,9 @@ table {
 th, td {
   text-align: left;
 }
+button {
+  margin: 4px;
+}
 
 tr:nth-child(odd)		{ background-color:#eee; }
 tr:nth-child(even)	{ background-color:#fff; }

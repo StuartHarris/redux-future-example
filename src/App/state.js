@@ -1,13 +1,22 @@
 import { handleActions, createAction } from 'redux-actions';
 import { createStructuredSelector } from 'reselect';
-import { map, prop } from 'ramda';
+import { map, prop, compose } from 'ramda';
+import { Future } from 'ramda-fantasy';
+import { tagged } from 'daggy';
 
 export const GET_SCHEDULE = 'GET_SCHEDULE';
 
-export const getSchedule = createAction(GET_SCHEDULE, async uri => {
-  const response = await fetch(uri);
-  return response.json();
-});
+const httpGet = url => Future((reject, resolve) =>
+  fetch(url).then(res => res.json()).then(resolve).catch(reject)
+);
+
+const makeUrl = day => `http://www.bbc.co.uk/radio4/programmes/schedules/fm/${day}.json`;
+
+export const getSchedule = createAction(GET_SCHEDULE, compose(httpGet, makeUrl));
+
+const Broadcast = tagged('id', 'title', 'start');
+const toBroadcast = x => Broadcast(x.pid, x.programme.display_titles.title, x.start);
+const mapBroadcasts = map(toBroadcast);
 
 export default handleActions({
   [GET_SCHEDULE]: (state, action) => {
@@ -16,11 +25,7 @@ export default handleActions({
     if (action.error) {
       error = action.payload;
     } else {
-      broadcasts = map(b => ({
-        id: b.pid,
-        title: b.programme.display_titles.title,
-        start: b.start,
-      }), action.payload.schedule.day.broadcasts);
+      broadcasts = mapBroadcasts(action.payload.schedule.day.broadcasts);
     }
     return {
       ...state,

@@ -21,14 +21,10 @@ const App = ({ getSchedule, broadcasts, error }: Props) => (
   <div className="App">
     <div className="App-header">
       <img src={logo} className="App-logo" alt="logo" />
-      <h2>BBC Programmes</h2>
+      <h2>Radio 4 Programmes</h2>
     </div>
-    <button
-      className="App-intro"
-      onClick={() => getSchedule('http://www.bbc.co.uk/radio4/programmes/schedules/fm/today.j2son')}
-    >
-      Radio 4
-    </button>
+    <button className="App-intro" onClick={() => getSchedule('today')}>Today</button>
+    <button className="App-intro" onClick={() => getSchedule('tomorrow')}>Tomorrow</button>
     {error && <div>{error.message}</div>}
     <table>
       <thead><tr><th>Start</th><th>Title</th></tr></thead>
