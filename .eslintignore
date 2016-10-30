@@ -1,0 +1,4 @@
+public/**/*
+flow/**/*
+webpack.*
+**/node_modules/*
