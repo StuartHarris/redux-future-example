@@ -1,5 +1,6 @@
 import { isFSA } from 'flux-standard-action';
-import { Future } from 'ramda-fantasy';
+import Future from 'fluture';
+import { Left, Right } from 'sanctuary';
 import { getSchedule, GET_SCHEDULE } from './state';
 
 describe('getSchedule', () => {
@@ -10,22 +11,35 @@ describe('getSchedule', () => {
   });
   it('should use a Future', () => {
     const action = getSchedule('today');
-    expect(action.payload).toBeInstanceOf(Future);
+    expect(Future.isFuture(action.payload)).toBe(true);
   });
   it('should get todays schedule', () => {
-    const data = { x: 1 };
-    jest.setMock('./side-effects', { getJson: () => Promise.resolve(data) });
+    const data = { schedule: { day: { broadcasts: [{ pid: '1', start: 'now', programme: { display_titles: { title: 'hey' } } }] } } };
+    jest.setMock('./side-effects', { fetchJson: () => Promise.resolve(data) });
     jest.resetModules();
     const getSchedule = require('./state').getSchedule; // eslint-disable-line global-require
     const action = getSchedule('today');
     return new Promise((resolve, reject) => {
       action.payload.fork(
-        e => {
-          reject(e);
-        },
+        reject,
         a => {
-          expect(a).toEqual(data);
+          expect(a).toEqual(Right([{ id: '1', start: 'now', title: 'hey' }]));
           resolve(a);
+        }
+      );
+    });
+  });
+  it('should handle errors', () => {
+    jest.setMock('./side-effects', { fetchJson: () => Promise.reject(new Error('boom!')) });
+    jest.resetModules();
+    const getSchedule = require('./state').getSchedule; // eslint-disable-line global-require
+    const action = getSchedule('today');
+    return new Promise((resolve, reject) => {
+      action.payload.fork(
+        reject,
+        a => {
+          expect(a).toEqual(Left(new Error('boom!')));
+          resolve();
         }
       );
     });

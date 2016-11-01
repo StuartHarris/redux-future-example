@@ -23,8 +23,8 @@
     "babel-preset-react": "^6.16.0",
     "babel-preset-stage-0": "^6.16.0",
     "daggy": "^0.0.1",
-    "data.task": "^3.1.1",
     "date-fns": "^1.9.0",
+    "fluture": "^4.0.0",
     "flux-standard-action": "^1.0.0",
     "ramda": "^0.22.1",
     "ramda-fantasy": "^0.7.0",
@@ -36,7 +36,8 @@
     "redux-future": "^0.0.11",
     "redux-io": "^0.0.9",
     "redux-promise": "^0.5.3",
-    "reselect": "^2.5.4"
+    "reselect": "^2.5.4",
+    "sanctuary": "^0.11.1"
   },
   "scripts": {
     "start": "react-scripts start",

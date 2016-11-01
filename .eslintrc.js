@@ -32,6 +32,7 @@ module.exports = {
     ]}],
     "arrow-parens": 0,
     "no-shadow": 0,
+    "no-void": 0,
     "new-cap": 0,
     "require-yield": 1,
     "max-len": [1, 200, 2, {"ignoreComments": true}],

@@ -4,6 +4,7 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { partial, map } from 'ramda';
+import { either } from 'sanctuary';
 import { format } from 'date-fns';
 
 import { getSchedule, selector } from './state';
@@ -13,11 +14,27 @@ import './App.css';
 
 type Props = {
   getSchedule: () => Object,
-  broadcasts: [],
-  error: Object
+  broadcasts: Object,
 }
 
-const App = ({ getSchedule, broadcasts, error }: Props) => (
+const renderError = e => (
+  // <div>{e.message}</div>
+  e.message
+);
+
+const renderTable = a => (
+  // <table>
+  //   <thead><tr><th>Start</th><th>Title</th></tr></thead>
+  //   <tbody>
+  //     { map(b => (
+  //       <tr key={b.id}><td>{format(b.start, 'hh:mm a')}</td><td>{b.title}</td></tr>
+  //     ), a) }
+  //   </tbody>
+  // </table>
+  JSON.stringify(a)
+);
+
+const App = ({ getSchedule, broadcasts }: Props) => (
   <div className="App">
     <div className="App-header">
       <img src={logo} className="App-logo" alt="logo" />
@@ -25,15 +42,7 @@ const App = ({ getSchedule, broadcasts, error }: Props) => (
     </div>
     <button className="App-intro" onClick={() => getSchedule('today')}>Today</button>
     <button className="App-intro" onClick={() => getSchedule('tomorrow')}>Tomorrow</button>
-    {error && <div>{error.message}</div>}
-    <table>
-      <thead><tr><th>Start</th><th>Title</th></tr></thead>
-      <tbody>
-        { map(b => (
-          <tr key={b.id}><td>{format(b.start, 'hh:mm a')}</td><td>{b.title}</td></tr>
-        ), broadcasts) }
-      </tbody>
-    </table>
+    { either(renderError, renderTable, broadcasts) }
   </div>
 );
 
