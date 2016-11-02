@@ -32,7 +32,7 @@
     "react-dom": "^15.3.2",
     "react-redux": "^4.4.5",
     "redux": "^3.6.0",
-    "redux-actions": "^0.12.0",
+    "redux-actions": "^0.13.0",
     "redux-future": "^0.0.11",
     "redux-io": "^0.0.9",
     "redux-promise": "^0.5.3",

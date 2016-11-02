@@ -4,7 +4,6 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { partial, map } from 'ramda';
-import { either } from 'sanctuary';
 import { format } from 'date-fns';
 
 import { getSchedule, selector } from './state';
@@ -17,21 +16,17 @@ type Props = {
   broadcasts: Object,
 }
 
-const renderError = e => (
-  // <div>{e.message}</div>
-  e.message
-);
+const either = (l, r, e) => (e.isLeft ? l(e.value) : r(e.value));
 
-const renderTable = a => (
-  // <table>
-  //   <thead><tr><th>Start</th><th>Title</th></tr></thead>
-  //   <tbody>
-  //     { map(b => (
-  //       <tr key={b.id}><td>{format(b.start, 'hh:mm a')}</td><td>{b.title}</td></tr>
-  //     ), a) }
-  //   </tbody>
-  // </table>
-  JSON.stringify(a)
+const Table = ({ broadcasts }: {broadcasts: []}) => (
+  <table>
+    <thead><tr><th>Start</th><th>Title</th></tr></thead>
+    <tbody>
+      { map(b => (
+        <tr key={b.id}><td>{format(b.start, 'hh:mm a')}</td><td>{b.title}</td></tr>
+      ), broadcasts) }
+    </tbody>
+  </table>
 );
 
 const App = ({ getSchedule, broadcasts }: Props) => (
@@ -42,7 +37,11 @@ const App = ({ getSchedule, broadcasts }: Props) => (
     </div>
     <button className="App-intro" onClick={() => getSchedule('today')}>Today</button>
     <button className="App-intro" onClick={() => getSchedule('tomorrow')}>Tomorrow</button>
-    { either(renderError, renderTable, broadcasts) }
+    { either(
+      e => <div>{e.message}</div>,
+      a => <Table broadcasts={a} />,
+      broadcasts
+    )}
   </div>
 );
 
