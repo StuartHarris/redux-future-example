@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import configureStore from 'redux-mock-store';
-import { Right } from 'sanctuary';
 
 import App from '.';
 
@@ -12,7 +11,7 @@ it('renders without crashing', () => {
   const div = document.createElement('div');
   const initialState = { app: {
     error: null,
-    broadcasts: Right([]),
+    broadcasts: [],
   } };
   const store = mockStore(initialState);
   ReactDOM.render((

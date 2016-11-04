@@ -13,10 +13,8 @@ import './App.css';
 
 type Props = {
   getSchedule: () => Object,
-  broadcasts: Object,
+  broadcasts: [],
 }
-
-const either = (l, r, e) => (e.isLeft ? l(e.value) : r(e.value));
 
 const Table = ({ broadcasts }: {broadcasts: []}) => (
   <table>
@@ -37,11 +35,8 @@ const App = ({ getSchedule, broadcasts }: Props) => (
     </div>
     <button className="App-intro" onClick={() => getSchedule('today')}>Today</button>
     <button className="App-intro" onClick={() => getSchedule('tomorrow')}>Tomorrow</button>
-    { either(
-      e => <div>{e.message}</div>,
-      a => <Table broadcasts={a} />,
-      broadcasts
-    )}
+    {/* e => <div>{e.message}</div>, */}
+    <Table broadcasts={broadcasts} />,
   </div>
 );
 

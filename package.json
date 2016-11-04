@@ -36,8 +36,7 @@
     "redux-future": "^0.0.11",
     "redux-io": "^0.0.9",
     "redux-promise": "^0.5.3",
-    "reselect": "^2.5.4",
-    "sanctuary": "^0.11.1"
+    "reselect": "^2.5.4"
   },
   "scripts": {
     "start": "react-scripts start",
