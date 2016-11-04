@@ -1,7 +1,7 @@
 import { isFSA } from 'flux-standard-action';
 import Future from 'fluture';
-import { Success } from '../util/RemoteData';
 
+import { Failure, Success } from '../lib/remote-data';
 import { getSchedule, GET_SCHEDULE } from './state';
 
 describe('getSchedule', () => {
@@ -37,11 +37,11 @@ describe('getSchedule', () => {
     const action = getSchedule('today');
     return new Promise((resolve, reject) => {
       action.payload.fork(
-        e => {
-          expect(e).toEqual(new Error('boom!'));
+        reject,
+        a => {
+          expect(a).toEqual(Failure(new Error('boom!')));
           resolve();
         },
-        reject
       );
     });
   });

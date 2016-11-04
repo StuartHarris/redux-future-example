@@ -11,11 +11,6 @@ import { getSchedule, selector } from './state';
 import logo from './logo.svg';
 import './App.css';
 
-type Props = {
-  getSchedule: () => Object,
-  broadcasts: Object,
-}
-
 const Table = ({ broadcasts }: {broadcasts: []}) => (
   <table>
     <thead><tr><th>Start</th><th>Title</th></tr></thead>
@@ -27,7 +22,7 @@ const Table = ({ broadcasts }: {broadcasts: []}) => (
   </table>
 );
 
-const App = ({ getSchedule, broadcasts }: Props) => (
+const App = ({ getSchedule, broadcasts }: { getSchedule: () => Object, broadcasts: Object, }) => (
   <div className="App">
     <div className="App-header">
       <img src={logo} className="App-logo" alt="logo" />
@@ -37,8 +32,10 @@ const App = ({ getSchedule, broadcasts }: Props) => (
     <button className="App-intro" onClick={() => getSchedule('tomorrow')}>Tomorrow</button>
     {
       broadcasts.cata({
+        NotAsked: () => <div>Please click Today or Tomorrow</div>,
+        Loading: () => <div>Loading...</div>,
+        Failure: e => <div>{e.message}</div>,
         Success: a => <Table broadcasts={a} />,
-        NotAsked: () => <div>No items</div>,
       })
     }
   </div>

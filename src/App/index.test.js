@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import configureStore from 'redux-mock-store';
 
 import App from '.';
-import { NotAsked } from '../util/RemoteData';
+import { NotAsked } from '../lib/remote-data';
 
 const middlewares = [];
 const mockStore = configureStore(middlewares);

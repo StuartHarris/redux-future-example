@@ -2458,19 +2458,19 @@ fluture@^4.0.0:
     inspect-f "^1.1.0"
     sanctuary-type-classes "^0.3.0"
 
-flux-standard-action@^0.6.0, flux-standard-action@^0.6.1:
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/flux-standard-action/-/flux-standard-action-0.6.1.tgz#6f34211b94834ea1c3cc30f4e7afad3d0fbf71a2"
-  dependencies:
-    lodash.isplainobject "^3.2.0"
-
-flux-standard-action@^1.0.0:
+flux-standard-action:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/flux-standard-action/-/flux-standard-action-1.0.0.tgz#24b84b627386714e33a0f07773931fc4b5fc452e"
   dependencies:
     lodash.isplainobject "^4.0.6"
     lodash.isstring "^4.0.1"
     lodash.issymbol "^4.0.1"
+
+flux-standard-action@^0.6.0, flux-standard-action@^0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/flux-standard-action/-/flux-standard-action-0.6.1.tgz#6f34211b94834ea1c3cc30f4e7afad3d0fbf71a2"
+  dependencies:
+    lodash.isplainobject "^3.2.0"
 
 for-in@^0.1.5:
   version "0.1.6"
@@ -4942,12 +4942,6 @@ redux-actions:
   dependencies:
     lodash "^4.13.1"
     reduce-reducers "^0.1.0"
-
-redux-future@^0.0.11:
-  version "0.0.11"
-  resolved "https://registry.yarnpkg.com/redux-future/-/redux-future-0.0.11.tgz#3cf057e3bf9409f4da2140158709fe326692ef82"
-  dependencies:
-    flux-standard-action "^0.6.0"
 
 redux-io@^0.0.9:
   version "0.0.9"
