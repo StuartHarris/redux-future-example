@@ -1,6 +1,6 @@
 import { isFSA } from 'flux-standard-action';
 import Future from 'fluture';
-import { Just, Nothing } from 'data.maybe';
+import { Success } from '../util/RemoteData';
 
 import { getSchedule, GET_SCHEDULE } from './state';
 
@@ -24,7 +24,7 @@ describe('getSchedule', () => {
       action.payload.fork(
         reject,
         a => {
-          expect(a).toEqual(Just([{ id: '1', start: 'now', title: 'hey' }]));
+          expect(a).toEqual(Success([{ id: '1', start: 'now', title: 'hey' }]));
           resolve(a);
         }
       );

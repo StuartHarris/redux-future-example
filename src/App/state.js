@@ -2,10 +2,10 @@ import { handleActions, createAction } from 'redux-actions';
 import { createStructuredSelector } from 'reselect';
 import { compose, pipe, map, prop, path } from 'ramda';
 import Future from 'fluture';
-import { Just, Nothing } from 'data.maybe';
 import { tagged } from 'daggy';
 
 import futurizeP from '../util/futurizeP';
+import { NotAsked, Success } from '../util/RemoteData';
 import { fetchJson } from './side-effects';
 
 const futurize = futurizeP(Future);
@@ -26,10 +26,10 @@ const toBroadcast = a => Broadcast(prop('pid', a), path(['programme', 'display_t
 const getBroadcasts = path(['schedule', 'day', 'broadcasts']);
 
 export const getSchedule = createAction(GET_SCHEDULE, pipe(
-  fetchData,              // Future data
-  map(getBroadcasts),     // Future (Array broadcast)
-  map(map(toBroadcast)),  // Future (Array Broadcast)
-  map(x => Just(x)),
+  fetchData,               // Future data
+  map(getBroadcasts),      // Future (Array broadcast)
+  map(map(toBroadcast)),   // Future (Array Broadcast)
+  map(Success),            // Future Success (Array Broadcast)
 ));
 
 const handleGetSchedule = (state, action) => ({
@@ -39,7 +39,7 @@ const handleGetSchedule = (state, action) => ({
 
 export default handleActions({
   [GET_SCHEDULE]: handleGetSchedule,
-}, { broadcasts: Nothing() });
+}, { broadcasts: NotAsked });
 
 export const selector = createStructuredSelector({
   broadcasts: prop('broadcasts'),

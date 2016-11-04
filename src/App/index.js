@@ -37,8 +37,8 @@ const App = ({ getSchedule, broadcasts }: Props) => (
     <button className="App-intro" onClick={() => getSchedule('tomorrow')}>Tomorrow</button>
     {
       broadcasts.cata({
-        Just: a => <Table broadcasts={a} />,
-        Nothing: () => <div>No items</div>,
+        Success: a => <Table broadcasts={a} />,
+        NotAsked: () => <div>No items</div>,
       })
     }
   </div>
