@@ -1,6 +1,6 @@
 import { isFSA } from 'flux-standard-action';
 import Future from 'fluture';
-import { Left, Right } from 'sanctuary';
+import { Nothing, Just } from 'sanctuary';
 import { getSchedule, GET_SCHEDULE } from './state';
 
 describe('getSchedule', () => {
@@ -23,7 +23,7 @@ describe('getSchedule', () => {
       action.payload.fork(
         reject,
         a => {
-          expect(a).toEqual(Right([{ id: '1', start: 'now', title: 'hey' }]));
+          expect(a).toEqual(Just([{ id: '1', start: 'now', title: 'hey' }]));
           resolve(a);
         }
       );
@@ -36,11 +36,11 @@ describe('getSchedule', () => {
     const action = getSchedule('today');
     return new Promise((resolve, reject) => {
       action.payload.fork(
-        reject,
-        a => {
-          expect(a).toEqual(Left(new Error('boom!')));
+        e => {
+          expect(e).toEqual(new Error('boom!'));
           resolve();
-        }
+        },
+        reject
       );
     });
   });
