@@ -13,7 +13,7 @@ import './App.css';
 
 type Props = {
   getSchedule: () => Object,
-  broadcasts: [],
+  broadcasts: Object,
 }
 
 const Table = ({ broadcasts }: {broadcasts: []}) => (
@@ -35,8 +35,12 @@ const App = ({ getSchedule, broadcasts }: Props) => (
     </div>
     <button className="App-intro" onClick={() => getSchedule('today')}>Today</button>
     <button className="App-intro" onClick={() => getSchedule('tomorrow')}>Tomorrow</button>
-    {/* e => <div>{e.message}</div>, */}
-    <Table broadcasts={broadcasts} />,
+    {
+      broadcasts.cata({
+        Just: a => <Table broadcasts={a} />,
+        Nothing: () => <div>No items</div>,
+      })
+    }
   </div>
 );
 

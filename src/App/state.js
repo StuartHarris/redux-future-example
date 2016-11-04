@@ -2,6 +2,7 @@ import { handleActions, createAction } from 'redux-actions';
 import { createStructuredSelector } from 'reselect';
 import { compose, pipe, map, prop, path } from 'ramda';
 import Future from 'fluture';
+import { Just, Nothing } from 'data.maybe';
 import { tagged } from 'daggy';
 
 import futurizeP from '../util/futurizeP';
@@ -28,6 +29,7 @@ export const getSchedule = createAction(GET_SCHEDULE, pipe(
   fetchData,              // Future data
   map(getBroadcasts),     // Future (Array broadcast)
   map(map(toBroadcast)),  // Future (Array Broadcast)
+  map(x => Just(x)),
 ));
 
 const handleGetSchedule = (state, action) => ({
@@ -37,7 +39,7 @@ const handleGetSchedule = (state, action) => ({
 
 export default handleActions({
   [GET_SCHEDULE]: handleGetSchedule,
-}, { broadcasts: [] });
+}, { broadcasts: Nothing() });
 
 export const selector = createStructuredSelector({
   broadcasts: prop('broadcasts'),

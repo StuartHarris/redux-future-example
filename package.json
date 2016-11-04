@@ -23,6 +23,7 @@
     "babel-preset-react": "^6.16.0",
     "babel-preset-stage-0": "^6.16.0",
     "daggy": "^0.0.1",
+    "data.maybe": "^1.2.2",
     "date-fns": "^1.9.0",
     "fluture": "^4.0.0",
     "flux-standard-action": "^1.0.0",
