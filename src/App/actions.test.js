@@ -2,7 +2,7 @@ import { isFSA } from 'flux-standard-action';
 import Future from 'fluture';
 
 import { Failure, Success } from '../lib/remote-data';
-import { getSchedule, GET_SCHEDULE } from './state';
+import { getSchedule, GET_SCHEDULE } from './actions';
 
 describe('getSchedule', () => {
   it('should create a flux standard action of the correct type', () => {
@@ -18,7 +18,7 @@ describe('getSchedule', () => {
     const data = { schedule: { day: { broadcasts: [{ pid: '1', start: 'now', programme: { display_titles: { title: 'hey' } } }] } } };
     jest.setMock('./side-effects', { fetchJson: () => Promise.resolve(data) });
     jest.resetModules();
-    const getSchedule = require('./state').getSchedule; // eslint-disable-line global-require
+    const getSchedule = require('./actions').getSchedule; // eslint-disable-line global-require
     const action = getSchedule('today');
     return new Promise((resolve, reject) => {
       action.payload.fork(
@@ -33,7 +33,7 @@ describe('getSchedule', () => {
   it('should handle errors', () => {
     jest.setMock('./side-effects', { fetchJson: () => Promise.reject(new Error('boom!')) });
     jest.resetModules();
-    const getSchedule = require('./state').getSchedule; // eslint-disable-line global-require
+    const getSchedule = require('./actions').getSchedule; // eslint-disable-line global-require
     const action = getSchedule('today');
     return new Promise((resolve, reject) => {
       action.payload.fork(

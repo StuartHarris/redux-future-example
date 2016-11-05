@@ -6,7 +6,8 @@ import { connect } from 'react-redux';
 import { partial, map } from 'ramda';
 import { format } from 'date-fns';
 
-import { getSchedule, selector } from './state';
+import { getSchedule } from './actions';
+import { selector } from './reducers';
 
 import logo from './logo.svg';
 import './App.css';
