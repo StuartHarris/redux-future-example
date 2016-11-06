@@ -1,48 +1,50 @@
+import test from 'ava';
 import { isFSA } from 'flux-standard-action';
 import Future from 'fluture';
+import { tagged } from 'daggy';
 
 import { Failure, Success } from '../lib/remote-data';
 import { getSchedule, GET_SCHEDULE } from './actions';
 
-describe('getSchedule', () => {
-  it('should create a flux standard action of the correct type', () => {
-    const action = getSchedule('today');
-    expect(isFSA(action)).toBe(true);
-    expect(action.type).toBe(GET_SCHEDULE);
+test('should create a flux standard action of the correct type', t => {
+  const action = getSchedule()('today');
+  t.true(isFSA(action));
+  t.is(action.type, GET_SCHEDULE);
+});
+
+test('should use a Future', t => {
+  const action = getSchedule()('today');
+  t.true(Future.isFuture(action.payload));
+});
+
+test('should get todays schedule', t => {
+  const data = { schedule: { day: { broadcasts: [{ pid: '1', start: 'now', programme: { display_titles: { title: 'hey' } } }] } } };
+  const fetchJson = async () => data;
+  const action = getSchedule(fetchJson)('today');
+  return new Promise((resolve, reject) => {
+    action.payload.fork(
+      reject,
+      actual => {
+        const Broadcast = tagged('id', 'title', 'start');
+        const expected = Success([Broadcast('1', 'hey', 'now')]);
+        t.deepEqual(actual, expected);
+        resolve();
+      }
+    );
   });
-  it('should use a Future', () => {
-    const action = getSchedule('today');
-    expect(Future.isFuture(action.payload)).toBe(true);
-  });
-  it('should get todays schedule', () => {
-    const data = { schedule: { day: { broadcasts: [{ pid: '1', start: 'now', programme: { display_titles: { title: 'hey' } } }] } } };
-    jest.setMock('./side-effects', { fetchJson: () => Promise.resolve(data) });
-    jest.resetModules();
-    const getSchedule = require('./actions').getSchedule; // eslint-disable-line global-require
-    const action = getSchedule('today');
-    return new Promise((resolve, reject) => {
-      action.payload.fork(
-        reject,
-        a => {
-          expect(a).toEqual(Success([{ id: '1', start: 'now', title: 'hey' }]));
-          resolve(a);
-        }
-      );
-    });
-  });
-  it('should handle errors', () => {
-    jest.setMock('./side-effects', { fetchJson: () => Promise.reject(new Error('boom!')) });
-    jest.resetModules();
-    const getSchedule = require('./actions').getSchedule; // eslint-disable-line global-require
-    const action = getSchedule('today');
-    return new Promise((resolve, reject) => {
-      action.payload.fork(
-        reject,
-        a => {
-          expect(a).toEqual(Failure(new Error('boom!')));
-          resolve();
-        },
-      );
-    });
+});
+
+test('should handle errors', t => {
+  const fetchJson = () => Promise.reject(new Error('boom!'));
+  const action = getSchedule(fetchJson)('today');
+  return new Promise((resolve, reject) => {
+    action.payload.fork(
+      reject,
+      actual => {
+        const expected = Failure(new Error('boom!'));
+        t.deepEqual(actual, expected);
+        resolve();
+      },
+    );
   });
 });

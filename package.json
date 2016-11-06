@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
+    "ava": "^0.16.0",
+    "babel-plugin-import-noop": "^1.0.1",
     "enzyme": "^2.5.1",
     "eslint": "^3.7.1",
     "eslint-config-airbnb": "^12.0.0",
@@ -12,6 +14,7 @@
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-react": "^6.4.1",
     "identity-obj-proxy": "^3.0.0",
+    "jsdom": "^9.8.3",
     "react-addons-test-utils": "^15.3.2",
     "react-scripts": "0.7.0",
     "redux-mock-store": "^1.2.1"
@@ -40,7 +43,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "test": "ava --verbose",
+    "test:watch": "ava --watch",
     "eject": "react-scripts eject"
   },
   "jest": {
@@ -55,6 +59,13 @@
       "^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
       "^.+\\.(css|less)$": "identity-obj-proxy"
     }
+  },
+  "ava": {
+    "require": [
+      "babel-register",
+      "./setup-test-env.js"
+    ],
+    "babel": "inherit"
   },
   "main": "index.js",
   "author": "Stuart Harris <stuart.harris@red-badger.com>",

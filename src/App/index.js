@@ -6,11 +6,13 @@ import { connect } from 'react-redux';
 import { partial, map } from 'ramda';
 import { format } from 'date-fns';
 
-import { getSchedule } from './actions';
+import { getSchedule as getScheduleImpl } from './actions';
 import { selector } from './reducers';
-
+import { fetchJson } from './side-effects';
 import logo from './logo.svg';
 import './App.css';
+
+const getSchedule = getScheduleImpl(fetchJson);
 
 const Table = ({ broadcasts }: {broadcasts: []}) => (
   <table>

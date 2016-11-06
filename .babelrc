@@ -1,3 +1,12 @@
 {
-  "presets": ["latest", "stage-0", "react"]
+  "presets": ["latest", "stage-0", "react"],
+  "plugins": [
+    ["transform-runtime", {
+      "polyfill": false,
+      "regenerator": true
+    }],
+    ["import-noop", {
+      "extensions": ["svg", "css"]
+    }]
+  ]
 }

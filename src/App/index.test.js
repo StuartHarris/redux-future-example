@@ -1,6 +1,7 @@
+import test from 'ava';
 import React from 'react';
-import ReactDOM from 'react-dom';
 import configureStore from 'redux-mock-store';
+import { mount } from 'enzyme';
 
 import App from '.';
 import { NotAsked } from '../lib/remote-data';
@@ -8,14 +9,13 @@ import { NotAsked } from '../lib/remote-data';
 const middlewares = [];
 const mockStore = configureStore(middlewares);
 
-it('renders without crashing', () => {
-  const div = document.createElement('div');
+test('renders without crashing', t => {
   const initialState = { app: {
     error: null,
     broadcasts: NotAsked,
   } };
   const store = mockStore(initialState);
-  ReactDOM.render((
-    <App store={store} />
-  ), div);
+  t.notThrows(() => {
+    mount(<App store={store} />);
+  });
 });
