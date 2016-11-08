@@ -13,9 +13,9 @@ export const GET_SCHEDULE = 'GET_SCHEDULE';
 export const getSchedule = fetchJson => {
   // makeUrl :: a -> a
   const makeUrl = day => `http://www.bbc.co.uk/radio4/programmes/schedules/fm/${day}.json`;
-  // httpGet :: a -> Future RemoteData
+  // httpGet :: a -> Future RemoteData e a
   const httpGet = compose(fold(Failure, Success), futurize(fetchJson));
-  // fetchData :: a -> Future RemoteData
+  // fetchData :: a -> Future RemoteData e a
   const fetchData = compose(httpGet, makeUrl);
   // getBroadcasts :: a -> Array b
   const getBroadcasts = path(['schedule', 'day', 'broadcasts']);
@@ -23,7 +23,7 @@ export const getSchedule = fetchJson => {
   const Broadcast = tagged('id', 'title', 'start');
   // toBroadcast :: a -> b
   const toBroadcast = a => Broadcast(a.pid, path(['programme', 'display_titles', 'title'], a), a.start);
-  // transform :: (RemoteData -> RemoteData) | (Success a -> Success b)
+  // transform :: RemoteData e a -> RemoteData e b
   const transform = a => {
     if (!is(Success, a)) {
       return a;

@@ -1,5 +1,6 @@
 import { taggedSum } from 'daggy';
 
+// RemoteData error data
 export const RemoteData = taggedSum({
   NotAsked: [],
   Loading: [],
