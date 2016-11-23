@@ -32,7 +32,7 @@ export const getSchedule = fetchJson => {
   };
 
   return createAction(GET_SCHEDULE, pipe(
-    fetchData,      // Future Success data
-    map(transform), // Future Success Array Broadcast
+    fetchData,      // Future RemoteData e a
+    map(transform), // Future RemoteData e (Array Broadcast)
   ));
 };
